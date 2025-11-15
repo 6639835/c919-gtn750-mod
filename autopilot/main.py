@@ -29,7 +29,20 @@ class PIDController:
 
 """Simple example of subscribing to a set of metrics"""
 
-with SimConnect(name='MonitorMetrics2') as sc:
+try:
+    sc = SimConnect(name='MonitorMetrics2')
+except OSError as e:
+    print("\n" + "="*60)
+    print("ERROR: Unable to connect to Flight Simulator")
+    print("="*60)
+    print("\nPlease ensure that:")
+    print("  1. Microsoft Flight Simulator is running")
+    print("  2. You have loaded into an aircraft")
+    print("  3. SimConnect is properly installed")
+    print("\nThen try running this script again.\n")
+    exit(1)
+
+with sc:
     simvars = [
         dict(name="AUTOPILOT FLIGHT DIRECTOR BANK", units="degree"),
         dict(name="AUTOPILOT FLIGHT DIRECTOR PITCH", units="degree"),
